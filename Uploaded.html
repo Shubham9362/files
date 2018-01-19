@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Upload</title>
+<style>
+
+
+    table{
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+    table, th, td{
+        border: 1px solid #cdcdcd;
+    }
+    table th, table td{
+        padding: 5px;
+        text-align: left;
+    }
+
+
+
+
+</style>
+
+
+
+	 <script type="text/javascript" src="http://www.technicalkeeda.com/js/javascripts/plugin/jquery.js"></script>
+    <script type="text/javascript" src="http://www.technicalkeeda.com/js/javascripts/plugin/jquery.validate.js"></script>
+    
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+</head>
+
+<body>
+	<div>
+   <input type="file" id="datafile" name="datafile"  />  
+    <input type="button" id="viewfile" name="viewfile" value="Export To Table" /><br><br>
+
+
+   <div class="container">
+
+
+ <table id="tdata">
+        <thead>
+            
+        </thead>
+        <tbody>
+</tbody>
+
+</div>  
+<div id="dvCSV">
+</div>
+
+
+      </div>
+      <script>  
+
+$(document).on('click', "#viewfile", function () {
+//	var k=[];
+ var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.json)$/;  
+     /*Checks  file*/  
+     if (regex.test($("#datafile").val().toLowerCase())) {  
+         var xlsxflag = false;   
+          }
+         if ($("#datafile").val().toLowerCase().indexOf(".json") > 0) {  
+             xlsxflag = true;  
+         }
+
+         if(xlsxflag)
+         {
+
+      var name = document.getElementById('datafile'); 
+      var path = name.files.item(0).name;
+      alert(path);
+      var arrItems = []; 
+
+    $.getJSON(path,function(data){
+    	    	//var item=[];
+     $.each(data,function(key,value){
+
+ 
+
+//alert(JSON.stringify(data));     
+
+  //      arrItems.push(value);
+    //    alert(key+' '+value);
+      //  console.log(JSON.stringify(data));
+//	$('table tbody').append('<tr><th>'+key+'</th><td>'+value+'</td></tr>');
+	//$('table tbody').append('<tr><td>'+value+'</td></tr>');
+	//$('body').append('</table>');
+
+	//items.push( "<li id='" + key + "'>" + val + "</li>" );
+             //$("ul").append("<li>"+value.Name+"</li>");
+          //  console.log(key+" "+value);
+
+//});
+           //   $( "<ul/>", { "class": "my-new-list",html: items.join( "" )}).appendTo( "body" );
+
+  
+         // THE ARRAY TO STORE JSON ITEMS.
+            //$.each(data, function (index, value) {
+               arrItems.push(value); 
+var alen=arrItems.length;
+          console.log("itemlength"+alen);           // PUSH THE VALUES INSIDE THE ARRAY.
+//                 console.log("check"+arrItems);
+});
+               var col = [];
+               var length=arrItems.length;
+               //console.log("collength"+length);
+            for (var i = 0; i < arrItems.length; i++) {
+                for (var key in arrItems[i]) {
+                    console.log("reading"+key);
+                    var n=col.indexOf(key);
+                    console.log("index"+n);
+                    if (col.indexOf(key) === -1) {
+                        col.push(key);
+                        console.log("ifkeyval"+col[i]);
+                    }
+                    
+                }
+                var len=col.length; 
+                console.log("length"+len);
+            }
+
+
+//var table = document.createElement("table");
+
+            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+  //          var tr = table.insertRow(-1);                   // TABLE ROW.
+
+          for (var i = 0; i < col.length; i++) {
+        //        var th = document.createElement("th");      // TABLE HEADER.
+            console.log("keys="+col[i]);
+$('table tbody ').append('<th>'+col[i]+'</th>');
+
+          //      th.innerHTML = col[i];
+            //    tr.appendChild(th);
+            }
+              
+               for (var i = 0; i < arrItems.length; i++) {
+
+                //tr = table.insertRow(-1);
+                $('table tbody').append('<tr>');
+             
+              for (var j = 0; j < col.length; j++) {
+              var tabCell ;
+                 tabCell = arrItems[i][col[j]];
+                console.log("hello"+tabCell);
+            $('table tbody ').append('<td>'+tabCell+' '+'</td>');
+                            //console.log('value='+JSON.stringify(arrItems[i]));
+               }
+                $('table tbody').append('</tr>');
+
+            }
+              
+
+
+
+
+
+
+});
+
+ }   
+else
+{
+
+alert('upload only .Json files');
+}
+});
+</script>
+</body>
+</html>
